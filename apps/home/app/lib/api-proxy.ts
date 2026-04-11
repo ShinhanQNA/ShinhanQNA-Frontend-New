@@ -23,6 +23,10 @@ export async function apiProxy(
         : undefined,
     });
 
+    if (res.status === 204 || res.headers.get("content-length") === "0") {
+      return NextResponse.json({ resultCode: "200", msg: "success", data: {} }, { status: res.status });
+    }
+
     const data = await res.json();
     return NextResponse.json(data, { status: res.status });
   } catch {
@@ -42,6 +46,10 @@ export async function apiProxyFormData(path: string, formData: FormData) {
       headers,
       body: formData,
     });
+
+    if (res.status === 204 || res.headers.get("content-length") === "0") {
+      return NextResponse.json({ resultCode: "200", msg: "success", data: {} }, { status: res.status });
+    }
 
     const data = await res.json();
     return NextResponse.json(data, { status: res.status });
