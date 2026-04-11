@@ -9,6 +9,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ label, error, className, id, ...props }, ref) => {
     const textareaId = id || label?.toLowerCase().replace(/\s+/g, "-");
+    const errorId = error ? `${textareaId}-error` : undefined;
 
     return (
       <div className="flex flex-col gap-1.5">
@@ -20,6 +21,8 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         <textarea
           ref={ref}
           id={textareaId}
+          aria-invalid={error ? "true" : undefined}
+          aria-describedby={errorId}
           className={cn(
             "w-full rounded-lg border bg-white px-4 py-2.5 text-base text-gray-900 placeholder:text-gray-500 transition-colors resize-none focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent",
             error ? "border-red-500" : "border-gray-300",
@@ -28,7 +31,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           rows={4}
           {...props}
         />
-        {error && <p className="text-sm text-red-500">{error}</p>}
+        {error && <p id={errorId} className="text-sm text-red-500" role="alert">{error}</p>}
       </div>
     );
   },
