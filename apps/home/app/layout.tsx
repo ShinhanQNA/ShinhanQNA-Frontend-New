@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ShinhanQNA",
+  title: "신한Q&A",
   description: "신한대학교 캠퍼스 커뮤니티",
 };
 
