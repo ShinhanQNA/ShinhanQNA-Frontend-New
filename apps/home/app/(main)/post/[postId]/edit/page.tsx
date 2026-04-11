@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { usePost, useUpdatePost } from "@shinhanqna/api";
-import { Input, Textarea, Button, Spinner } from "@shinhanqna/ui";
+import { Input, Textarea, Button, Spinner, EmptyState } from "@shinhanqna/ui";
 
 export default function EditPostPage() {
   const router = useRouter();
@@ -17,16 +17,26 @@ export default function EditPostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
+  const initialized = useRef(false);
 
   useEffect(() => {
-    if (post) {
+    if (post && !initialized.current) {
       setTitle(post.title);
       setContent(post.content);
+      initialized.current = true;
     }
   }, [post]);
 
+  if (!Number.isInteger(postId) || postId <= 0) {
+    return <EmptyState message="잘못된 게시글 주소입니다" />;
+  }
+
   if (isLoading) {
     return <div className="flex justify-center py-16"><Spinner size="lg" /></div>;
+  }
+
+  if (!post) {
+    return <EmptyState message="게시글을 찾을 수 없습니다" />;
   }
 
   const handleSubmit = (e: React.FormEvent) => {
