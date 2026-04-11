@@ -9,6 +9,7 @@ export function useComments(postId: number) {
   return useQuery({
     queryKey: commentKeys.list(postId),
     queryFn: () => fetchComments(postId),
+    enabled: postId > 0,
   });
 }
 
