@@ -11,7 +11,6 @@
     "dev": "turbo run dev",
     "dev:home": "turbo run dev --filter=@shinhanqna/home",
     "dev:admin": "turbo run dev --filter=@shinhanqna/admin",
-    "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "clean": "turbo run clean"
   },
