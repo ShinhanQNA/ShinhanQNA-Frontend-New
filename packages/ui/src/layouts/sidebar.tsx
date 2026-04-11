@@ -27,6 +27,7 @@ function Sidebar({ links, activeKey, header, footer, className }: SidebarProps) 
           <a
             key={link.key}
             href={link.href}
+            aria-current={activeKey === link.key ? "page" : undefined}
             className={cn(
               "flex items-center gap-3 mx-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
               activeKey === link.key

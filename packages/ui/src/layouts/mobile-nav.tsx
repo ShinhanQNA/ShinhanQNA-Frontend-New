@@ -28,6 +28,7 @@ function MobileNav({ items, activeKey, className }: MobileNavProps) {
         <a
           key={item.key}
           href={item.href}
+          aria-current={activeKey === item.key ? "page" : undefined}
           className={cn(
             "flex flex-col items-center gap-0.5 px-3 py-1 text-xs transition-colors",
             activeKey === item.key
