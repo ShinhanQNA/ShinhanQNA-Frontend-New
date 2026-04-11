@@ -1,3 +1,4 @@
+import { type ReactNode } from "react";
 import { cn } from "../lib/cn";
 import { Avatar } from "../primitives/avatar";
 import { Badge } from "../primitives/badge";
@@ -9,7 +10,7 @@ interface CommentItemProps {
   deleted: boolean;
   createdAt: string;
   isReply?: boolean;
-  actions?: React.ReactNode;
+  actions?: ReactNode;
   className?: string;
 }
 
