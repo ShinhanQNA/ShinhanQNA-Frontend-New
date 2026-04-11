@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "shinhanqna",
+  "packageManager": "yarn@4.13.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "dev:home": "turbo run dev --filter=@shinhanqna/home",
+    "dev:admin": "turbo run dev --filter=@shinhanqna/admin",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0",
+    "typescript": "^5.7.0"
+  }
+}
