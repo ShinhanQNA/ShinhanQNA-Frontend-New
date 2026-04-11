@@ -24,7 +24,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const handleLogout = () => {
     logoutMutation.mutate(
       { refreshToken: "" },
-      { onSuccess: () => router.push("/login") },
+      {
+        onSuccess: () => router.push("/login"),
+        onError: () => router.push("/login"),
+      },
     );
   };
 
