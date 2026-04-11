@@ -14,19 +14,23 @@ export async function POST() {
     );
   }
 
-  const res = await fetch(`${API_URL}/api/v1/auth/refresh`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ refreshToken }),
-  });
+  try {
+    const res = await fetch(`${API_URL}/api/v1/auth/refresh`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refreshToken }),
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (!res.ok) {
-    await clearAuthCookies();
-    return NextResponse.json(data, { status: res.status });
+    if (!res.ok) {
+      await clearAuthCookies();
+      return NextResponse.json(data, { status: res.status });
+    }
+
+    await setAuthCookies(data.data.accessToken, data.data.refreshToken);
+    return NextResponse.json({ resultCode: data.resultCode, msg: data.msg, data: {} });
+  } catch {
+    return NextResponse.json({ resultCode: "502", msg: "서버 연결 실패", data: {} }, { status: 502 });
   }
-
-  await setAuthCookies(data.data.accessToken, data.data.refreshToken);
-  return NextResponse.json({ resultCode: data.resultCode, msg: data.msg, data: {} });
 }
