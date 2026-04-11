@@ -10,6 +10,7 @@ export function useToggleLike(postId: number) {
     mutationFn: () => toggleLike(postId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: postKeys.detail(postId) });
+      queryClient.invalidateQueries({ queryKey: postKeys.lists() });
     },
   });
 }

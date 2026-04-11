@@ -3,6 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { CommentCreateRequest, CommentUpdateRequest } from "@shinhanqna/types";
 import { commentKeys, fetchComments, createComment, updateComment, deleteComment } from "../endpoints/comments";
+import { postKeys } from "../endpoints/posts";
 
 export function useComments(postId: number) {
   return useQuery({
@@ -17,6 +18,8 @@ export function useCreateComment(postId: number) {
     mutationFn: (data: CommentCreateRequest) => createComment(postId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: commentKeys.list(postId) });
+      queryClient.invalidateQueries({ queryKey: postKeys.detail(postId) });
+      queryClient.invalidateQueries({ queryKey: postKeys.lists() });
     },
   });
 }
@@ -38,6 +41,8 @@ export function useDeleteComment(postId: number) {
     mutationFn: (commentId: number) => deleteComment(postId, commentId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: commentKeys.list(postId) });
+      queryClient.invalidateQueries({ queryKey: postKeys.detail(postId) });
+      queryClient.invalidateQueries({ queryKey: postKeys.lists() });
     },
   });
 }
