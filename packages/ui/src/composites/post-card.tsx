@@ -44,8 +44,12 @@ function PostCard({
   return (
     <article
       onClick={onClick}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onClick?.(); }}
+      tabIndex={onClick ? 0 : undefined}
+      role={onClick ? "button" : undefined}
       className={cn(
-        "flex gap-3 px-4 py-3 border-b border-gray-200 transition-colors hover:bg-gray-100 cursor-pointer",
+        "flex gap-3 px-4 py-3 border-b border-gray-200 transition-colors hover:bg-gray-100",
+        onClick && "cursor-pointer",
         className,
       )}
     >
