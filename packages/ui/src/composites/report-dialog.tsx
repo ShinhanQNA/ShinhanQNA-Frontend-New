@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { ReportReason } from "@shinhanqna/types";
 import { Modal } from "../primitives/modal";
 import { Button } from "../primitives/button";
@@ -25,6 +25,13 @@ function ReportDialog({ open, onClose, onSubmit, loading }: ReportDialogProps) {
   const [reason, setReason] = useState<ReportReason | null>(null);
   const [description, setDescription] = useState("");
 
+  useEffect(() => {
+    if (!open) {
+      setReason(null);
+      setDescription("");
+    }
+  }, [open]);
+
   const handleSubmit = () => {
     if (!reason) return;
     onSubmit(reason, description || undefined);
@@ -37,6 +44,7 @@ function ReportDialog({ open, onClose, onSubmit, loading }: ReportDialogProps) {
           {reasons.map((r) => (
             <button
               key={r.value}
+              type="button"
               onClick={() => setReason(r.value)}
               className={cn(
                 "px-4 py-3 rounded-lg border text-left text-sm transition-colors",
