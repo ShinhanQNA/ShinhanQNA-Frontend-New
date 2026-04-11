@@ -5,7 +5,7 @@ export interface AdminPostReportItem {
   postId: number;
   reporterId: number;
   reason: ReportReason;
-  description: string;
+  description?: string;
   postDeleted: boolean;
   reportedAt: string;
 }
@@ -16,7 +16,7 @@ export interface AdminCommentReportItem {
   postId: number;
   reporterId: number;
   reason: ReportReason;
-  description: string;
+  description?: string;
   commentDeleted: boolean;
   reportedAt: string;
 }

@@ -23,6 +23,10 @@ export function fetchPost(postId: number) {
 }
 
 export function createPost(data: PostCreateRequest, images?: File[]) {
+  if (images && images.length > 5) {
+    throw new Error("이미지는 최대 5장까지 첨부할 수 있습니다.");
+  }
+
   const formData = new FormData();
   formData.append("post", new Blob([JSON.stringify(data)], { type: "application/json" }));
 
