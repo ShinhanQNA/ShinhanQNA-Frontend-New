@@ -12,9 +12,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "incremental": true,
-    "declaration": true,
-    "declarationMap": true
+    "incremental": true
   },
   "exclude": ["node_modules"]
 }
