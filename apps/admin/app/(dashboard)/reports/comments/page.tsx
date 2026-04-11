@@ -22,6 +22,7 @@ export default function CommentReportsPage() {
     if (deleteTarget === null) return;
     deleteMutation.mutate(deleteTarget, {
       onSuccess: () => setDeleteTarget(null),
+      onError: () => setDeleteTarget(null),
     });
   };
 

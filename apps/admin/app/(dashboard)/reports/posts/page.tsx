@@ -22,6 +22,7 @@ export default function PostReportsPage() {
     if (deleteTarget === null) return;
     deleteMutation.mutate(deleteTarget, {
       onSuccess: () => setDeleteTarget(null),
+      onError: () => setDeleteTarget(null),
     });
   };
 
