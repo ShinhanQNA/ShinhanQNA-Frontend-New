@@ -30,14 +30,32 @@ function Dropdown({ trigger, items, onSelect, className }: DropdownProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    function handleEscape(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [open]);
+
   return (
     <div ref={ref} className={cn("relative inline-block", className)}>
-      <div onClick={() => setOpen(!open)}>{trigger}</div>
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-haspopup="menu"
+      >
+        {trigger}
+      </button>
       {open && (
-        <div className="absolute right-0 top-full mt-1 min-w-[160px] rounded-xl border border-gray-200 bg-white py-1 shadow-dropdown z-50">
+        <div className="absolute right-0 top-full mt-1 min-w-[160px] rounded-xl border border-gray-200 bg-white py-1 shadow-dropdown z-50" role="menu">
           {items.map((item) => (
             <button
               key={item.key}
+              type="button"
+              role="menuitem"
               onClick={() => {
                 onSelect(item.key);
                 setOpen(false);
