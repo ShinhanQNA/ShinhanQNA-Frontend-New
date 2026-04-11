@@ -13,7 +13,10 @@ interface LikeButtonProps {
 function LikeButton({ liked, count, onClick, className }: LikeButtonProps) {
   return (
     <button
+      type="button"
       onClick={onClick}
+      aria-pressed={liked}
+      aria-label={liked ? `좋아요 취소 (${count})` : `좋아요 (${count})`}
       className={cn(
         "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm transition-colors",
         liked
