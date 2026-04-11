@@ -53,6 +53,15 @@ export async function apiFetch<T>(
     throw new ApiError(res.status, resultCode, msg);
   }
 
+  if (res.status === 204 || res.headers.get("content-length") === "0") {
+    return undefined as T;
+  }
+
   const json: ApiResponse<T> = await res.json();
+
+  if (!("data" in json)) {
+    throw new ApiError(res.status, "MALFORMED_RESPONSE", "Unexpected response shape");
+  }
+
   return json.data;
 }
