@@ -3,8 +3,10 @@ import { apiFetch } from "../client";
 
 export const adminKeys = {
   all: ["admin"] as const,
-  postReports: (page?: number) => [...adminKeys.all, "postReports", { page }] as const,
-  commentReports: (page?: number) => [...adminKeys.all, "commentReports", { page }] as const,
+  postReportsList: () => [...adminKeys.all, "postReports"] as const,
+  postReports: (page?: number, size?: number) => [...adminKeys.postReportsList(), { page, size }] as const,
+  commentReportsList: () => [...adminKeys.all, "commentReports"] as const,
+  commentReports: (page?: number, size?: number) => [...adminKeys.commentReportsList(), { page, size }] as const,
 };
 
 export function fetchPostReports(params: { page?: number; size?: number }) {

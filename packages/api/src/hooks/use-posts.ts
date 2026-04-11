@@ -6,7 +6,7 @@ import { postKeys, fetchPosts, fetchPost, createPost, updatePost, deletePost } f
 
 export function usePosts(boardType?: BoardType, page = 0, size = 20) {
   return useQuery({
-    queryKey: postKeys.list(boardType, page),
+    queryKey: postKeys.list(boardType, page, size),
     queryFn: () => fetchPosts({ boardType, page, size }),
   });
 }

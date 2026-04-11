@@ -5,14 +5,14 @@ import { adminKeys, fetchPostReports, fetchCommentReports, adminDeletePost, admi
 
 export function usePostReports(page = 0, size = 20) {
   return useQuery({
-    queryKey: adminKeys.postReports(page),
+    queryKey: adminKeys.postReports(page, size),
     queryFn: () => fetchPostReports({ page, size }),
   });
 }
 
 export function useCommentReports(page = 0, size = 20) {
   return useQuery({
-    queryKey: adminKeys.commentReports(page),
+    queryKey: adminKeys.commentReports(page, size),
     queryFn: () => fetchCommentReports({ page, size }),
   });
 }
@@ -22,7 +22,7 @@ export function useAdminDeletePost() {
   return useMutation({
     mutationFn: (postId: number) => adminDeletePost(postId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: adminKeys.postReports() });
+      queryClient.invalidateQueries({ queryKey: adminKeys.postReportsList() });
     },
   });
 }
@@ -32,7 +32,7 @@ export function useAdminDeleteComment() {
   return useMutation({
     mutationFn: (commentId: number) => adminDeleteComment(commentId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: adminKeys.commentReports() });
+      queryClient.invalidateQueries({ queryKey: adminKeys.commentReportsList() });
     },
   });
 }

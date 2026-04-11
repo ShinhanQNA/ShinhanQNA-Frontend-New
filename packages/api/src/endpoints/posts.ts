@@ -4,7 +4,7 @@ import { apiFetch } from "../client";
 export const postKeys = {
   all: ["posts"] as const,
   lists: () => [...postKeys.all, "list"] as const,
-  list: (boardType?: BoardType, page?: number) => [...postKeys.lists(), { boardType, page }] as const,
+  list: (boardType?: BoardType, page?: number, size?: number) => [...postKeys.lists(), { boardType, page, size }] as const,
   details: () => [...postKeys.all, "detail"] as const,
   detail: (postId: number) => [...postKeys.details(), postId] as const,
 };
