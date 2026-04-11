@@ -18,6 +18,7 @@ export default function PostDetailPage() {
   const router = useRouter();
   const { postId: postIdParam } = useParams<{ postId: string }>();
   const postId = Number(postIdParam);
+  const isValidId = Number.isInteger(postId) && postId > 0;
 
   const { data: post, isLoading: postLoading } = usePost(postId);
   const { data: commentsData } = useComments(postId);
@@ -27,7 +28,12 @@ export default function PostDetailPage() {
   const createCommentMutation = useCreateComment(postId);
 
   const [commentText, setCommentText] = useState("");
+  const [liked, setLiked] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
+
+  if (!isValidId) {
+    return <EmptyState message="잘못된 게시글 주소입니다" />;
+  }
 
   if (postLoading) {
     return <div className="flex justify-center py-16"><Spinner size="lg" /></div>;
@@ -112,7 +118,13 @@ export default function PostDetailPage() {
         )}
 
         <div className="flex items-center gap-3 py-3 border-t border-gray-200">
-          <LikeButton liked={false} count={post.likeCount} onClick={() => likeMutation.mutate()} />
+          <LikeButton
+            liked={liked}
+            count={post.likeCount}
+            onClick={() => likeMutation.mutate(undefined, {
+              onSuccess: (res) => setLiked(res.liked),
+            })}
+          />
         </div>
       </article>
 
