@@ -8,7 +8,7 @@ import { PostCard, BoardTabBar, Pagination, EmptyState, Spinner } from "@shinhan
 
 export function Feed() {
   const router = useRouter();
-  const [boardType, setBoardType] = useState<BoardType | undefined>(undefined);
+  const [boardType, setBoardType] = useState<BoardType>("FREE");
   const [page, setPage] = useState(0);
 
   const { data, isLoading } = usePosts(boardType, page);

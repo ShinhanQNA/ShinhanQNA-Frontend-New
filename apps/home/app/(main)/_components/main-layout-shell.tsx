@@ -1,31 +1,9 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Home, MessageCircle, Users, BookOpen, User, Plus } from "lucide-react";
-import { ThreeColumnLayout, Sidebar, Header, MobileNav, Logo, Button, type SidebarLink, type MobileNavItem } from "@shinhanqna/ui";
-
-const publicSidebarLinks: SidebarLink[] = [
-  { key: "/", label: "홈", href: "/", icon: <Home className="h-5 w-5" /> },
-  { key: "/board/free", label: "자유게시판", href: "/board/free", icon: <MessageCircle className="h-5 w-5" /> },
-  { key: "/board/qna", label: "Q&A", href: "/board/qna", icon: <BookOpen className="h-5 w-5" /> },
-  { key: "/board/project-recruit", label: "프로젝트 모집", href: "/board/project-recruit", icon: <Users className="h-5 w-5" /> },
-  { key: "/board/study-recruit", label: "스터디 모집", href: "/board/study-recruit", icon: <Users className="h-5 w-5" /> },
-];
-
-const authedSidebarLink: SidebarLink = {
-  key: "/profile", label: "프로필", href: "/profile", icon: <User className="h-5 w-5" />,
-};
-
-const publicMobileNavItems: MobileNavItem[] = [
-  { key: "/", label: "홈", href: "/", icon: <Home className="h-5 w-5" /> },
-  { key: "/board/qna", label: "Q&A", href: "/board/qna", icon: <BookOpen className="h-5 w-5" /> },
-  { key: "/board/project-recruit", label: "모집", href: "/board/project-recruit", icon: <Users className="h-5 w-5" /> },
-];
-
-const authedMobileNavItem: MobileNavItem = {
-  key: "/profile", label: "프로필", href: "/profile", icon: <User className="h-5 w-5" />,
-};
+import { User, Plus } from "lucide-react";
+import { Header, Logo, Button, Dropdown } from "@shinhanqna/ui";
 
 interface MainLayoutShellProps {
   children: React.ReactNode;
@@ -33,55 +11,61 @@ interface MainLayoutShellProps {
 }
 
 export function MainLayoutShell({ children, isAuthenticated }: MainLayoutShellProps) {
-  const pathname = usePathname();
+  const router = useRouter();
 
-  const sidebarLinks = isAuthenticated ? [...publicSidebarLinks, authedSidebarLink] : publicSidebarLinks;
-  const mobileNavItems = isAuthenticated ? [...publicMobileNavItems, authedMobileNavItem] : publicMobileNavItems;
+  async function handleLogout() {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } finally {
+      window.location.href = "/";
+    }
+  }
 
-  const activeKey = sidebarLinks.find((link) =>
-    link.key === "/" ? pathname === "/" : pathname.startsWith(link.key),
-  )?.key || "/";
+  const handleProfileSelect = (key: string) => {
+    if (key === "profile") router.push("/profile");
+    else if (key === "logout") void handleLogout();
+  };
 
   return (
-    <>
-      <ThreeColumnLayout
+    <div className="mx-auto flex min-h-screen w-full max-w-[640px] lg:max-w-3xl xl:max-w-4xl flex-col border-x border-border-default">
+      <Header
         left={
-          <Sidebar
-            links={sidebarLinks}
-            activeKey={activeKey}
-            header={
-              <Link href="/" className="flex items-center gap-2">
-                <Logo size={28} className="text-cyan-500" />
-                <span className="text-lg font-bold text-fg">신한Q&A</span>
-              </Link>
-            }
-          />
+          <Link href="/" className="flex items-center gap-2">
+            <Logo size={28} className="text-cyan-500" />
+            <span className="text-lg font-bold text-fg">신한Q&A</span>
+          </Link>
         }
-        center={
-          <div className="flex flex-col">
-            <Header
-              title="신한Q&A"
-              right={
-                isAuthenticated ? (
-                  <Link
-                    href="/post/new"
-                    className="flex items-center gap-1.5 rounded-full bg-cyan-500 px-4 py-2 text-sm font-medium text-white hover:bg-cyan-600 transition-colors"
-                  >
-                    <Plus className="h-4 w-4" />
-                    글쓰기
-                  </Link>
-                ) : (
-                  <Link href="/login">
-                    <Button size="sm">로그인</Button>
-                  </Link>
-                )
-              }
-            />
-            {children}
-          </div>
+        right={
+          isAuthenticated ? (
+            <div className="flex items-center gap-2">
+              <Link
+                href="/post/new"
+                className="flex items-center gap-1.5 rounded-full bg-cyan-500 px-4 py-2 text-sm font-medium text-white hover:bg-cyan-600 transition-colors"
+              >
+                <Plus className="h-4 w-4" />
+                글쓰기
+              </Link>
+              <Dropdown
+                trigger={
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-border-default bg-surface text-fg hover:bg-surface-hover transition-colors">
+                    <User className="h-5 w-5" />
+                  </span>
+                }
+                items={[
+                  { key: "profile", label: "프로필" },
+                  { key: "logout", label: "로그아웃", danger: true },
+                ]}
+                onSelect={handleProfileSelect}
+              />
+            </div>
+          ) : (
+            <Link href="/login">
+              <Button size="sm">로그인</Button>
+            </Link>
+          )
         }
       />
-      <MobileNav items={mobileNavItems} activeKey={activeKey} />
-    </>
+      {children}
+    </div>
   );
 }
