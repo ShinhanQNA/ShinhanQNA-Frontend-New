@@ -20,8 +20,8 @@ function LikeButton({ liked, count, onClick, className }: LikeButtonProps) {
       className={cn(
         "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm transition-colors",
         liked
-          ? "text-red-500 bg-red-100 hover:bg-red-200"
-          : "text-gray-500 hover:text-red-500 hover:bg-red-100",
+          ? "text-red-500 bg-red-100 hover:bg-red-200 dark:bg-red-800 dark:text-red-100 dark:hover:bg-red-700"
+          : "text-fg-muted hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-800",
         className,
       )}
     >
