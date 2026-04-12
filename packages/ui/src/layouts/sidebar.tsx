@@ -20,8 +20,8 @@ interface SidebarProps {
 
 function Sidebar({ links, activeKey, header, footer, className }: SidebarProps) {
   return (
-    <aside className={cn("flex flex-col h-full w-[240px] border-r border-gray-200 bg-white", className)}>
-      {header && <div className="p-4 border-b border-gray-200">{header}</div>}
+    <aside className={cn("flex flex-col h-full w-[240px] border-r border-border-default bg-surface", className)}>
+      {header && <div className="p-4 border-b border-border-default">{header}</div>}
       <nav className="flex-1 py-2">
         {links.map((link) => (
           <a
@@ -32,7 +32,7 @@ function Sidebar({ links, activeKey, header, footer, className }: SidebarProps) 
               "flex items-center gap-3 mx-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
               activeKey === link.key
                 ? "bg-cyan-100 text-cyan-900"
-                : "text-gray-600 hover:bg-gray-100 hover:text-gray-900",
+                : "text-fg-muted hover:bg-surface-hover hover:text-fg",
             )}
           >
             {link.icon}
@@ -40,7 +40,7 @@ function Sidebar({ links, activeKey, header, footer, className }: SidebarProps) 
           </a>
         ))}
       </nav>
-      {footer && <div className="p-4 border-t border-gray-200">{footer}</div>}
+      {footer && <div className="p-4 border-t border-border-default">{footer}</div>}
     </aside>
   );
 }

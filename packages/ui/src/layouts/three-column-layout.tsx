@@ -14,7 +14,7 @@ function ThreeColumnLayout({ left, center, right, className }: ThreeColumnLayout
       <div className="hidden lg:flex sticky top-0 h-screen shrink-0 overflow-y-auto">
         {left}
       </div>
-      <main className="w-full lg:max-w-[600px] lg:border-x border-gray-200 pb-16 lg:pb-0">
+      <main className="w-full lg:max-w-[600px] lg:border-x border-border-default pb-16 lg:pb-0">
         {center}
       </main>
       {right && (
