@@ -2,7 +2,7 @@ import { type ReactNode } from "react";
 import { cn } from "../lib/cn";
 
 interface HeaderProps {
-  title: string;
+  title?: string;
   left?: ReactNode;
   right?: ReactNode;
   className?: string;
@@ -18,7 +18,7 @@ function Header({ title, left, right, className }: HeaderProps) {
     >
       <div className="flex items-center gap-3">
         {left}
-        <h1 className="text-lg font-bold text-fg">{title}</h1>
+        {title && <h1 className="text-lg font-bold text-fg">{title}</h1>}
       </div>
       {right && <div className="flex items-center gap-2">{right}</div>}
     </header>
