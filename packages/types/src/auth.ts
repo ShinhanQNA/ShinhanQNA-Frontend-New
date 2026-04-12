@@ -5,9 +5,20 @@ export interface LoginRequest {
 
 export interface RegisterRequest {
   email: string;
-  studentNumber: string;
+  cyberId: string;
+  cyberPassword: string;
   password: string;
   nickname: string;
+}
+
+export interface CyberVerifyRequest {
+  cyberId: string;
+  cyberPassword: string;
+}
+
+export interface CyberVerifyResponse {
+  studentNumber: string;
+  department: string;
 }
 
 export interface TokenPair {
