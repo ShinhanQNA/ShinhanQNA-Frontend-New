@@ -41,16 +41,24 @@ function Dropdown({ trigger, items, onSelect, className }: DropdownProps) {
 
   return (
     <div ref={ref} className={cn("relative inline-block", className)}>
-      <button
-        type="button"
+      <span
+        role="button"
+        tabIndex={0}
         onClick={() => setOpen(!open)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setOpen(!open);
+          }
+        }}
         aria-expanded={open}
         aria-haspopup="menu"
+        className="inline-block cursor-pointer"
       >
         {trigger}
-      </button>
+      </span>
       {open && (
-        <div className="absolute right-0 top-full mt-1 min-w-[160px] rounded-xl border border-gray-200 bg-white py-1 shadow-dropdown z-50" role="menu">
+        <div className="absolute left-0 top-full mt-1 min-w-[160px] rounded-xl border border-border-default bg-surface py-1 shadow-dropdown z-50" role="menu">
           {items.map((item) => (
             <button
               key={item.key}
@@ -64,7 +72,7 @@ function Dropdown({ trigger, items, onSelect, className }: DropdownProps) {
                 "w-full px-4 py-2.5 text-left text-sm transition-colors",
                 item.danger
                   ? "text-red-500 hover:bg-red-100"
-                  : "text-gray-700 hover:bg-gray-100",
+                  : "text-fg hover:bg-surface-hover",
               )}
             >
               {item.label}
