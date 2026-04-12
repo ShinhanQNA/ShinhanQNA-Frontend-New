@@ -61,11 +61,11 @@ export default function PostDetailPage() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
-        <button type="button" onClick={() => router.back()} className="text-gray-500 hover:text-gray-700">
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-border-default">
+        <button type="button" onClick={() => router.back()} className="text-fg-muted hover:text-fg">
           <ArrowLeft className="h-5 w-5" />
         </button>
-        <span className="text-lg font-bold text-gray-900">게시글</span>
+        <span className="text-lg font-bold text-fg">게시글</span>
       </div>
 
       <article className="px-4 py-4">
@@ -73,15 +73,15 @@ export default function PostDetailPage() {
           <div className="flex items-center gap-3">
             <Avatar fallback={post.authorName} size="lg" />
             <div>
-              <p className="font-semibold text-gray-900">{post.authorName}</p>
+              <p className="font-semibold text-fg">{post.authorName}</p>
               <div className="flex items-center gap-2">
                 <Badge variant="cyan">{boardLabels[post.boardType]}</Badge>
-                <span className="text-xs text-gray-500">{new Date(post.createdAt).toLocaleDateString("ko-KR")}</span>
+                <span className="text-xs text-fg-muted">{new Date(post.createdAt).toLocaleDateString("ko-KR")}</span>
               </div>
             </div>
           </div>
           <Dropdown
-            trigger={<MoreHorizontal className="h-5 w-5 text-gray-500" />}
+            trigger={<MoreHorizontal className="h-5 w-5 text-fg-muted" />}
             items={[
               { key: "edit", label: "수정" },
               { key: "report", label: "신고" },
@@ -95,8 +95,8 @@ export default function PostDetailPage() {
           />
         </div>
 
-        <h1 className="text-xl font-bold text-gray-900 mb-2">{post.title}</h1>
-        <p className="text-base text-gray-700 whitespace-pre-wrap mb-4">{post.content}</p>
+        <h1 className="text-xl font-bold text-fg mb-2">{post.title}</h1>
+        <p className="text-base text-fg whitespace-pre-wrap mb-4">{post.content}</p>
 
         {post.imageUrls.length > 0 && (
           <div className="flex gap-2 overflow-x-auto mb-4">
@@ -117,7 +117,7 @@ export default function PostDetailPage() {
           </div>
         )}
 
-        <div className="flex items-center gap-3 py-3 border-t border-gray-200">
+        <div className="flex items-center gap-3 py-3 border-t border-border-default">
           <LikeButton
             liked={liked}
             count={post.likeCount}
@@ -128,9 +128,9 @@ export default function PostDetailPage() {
         </div>
       </article>
 
-      <div className="border-t border-gray-200">
+      <div className="border-t border-border-default">
         <div className="px-4 py-3">
-          <h2 className="text-base font-semibold text-gray-900">댓글 {post.commentCount}</h2>
+          <h2 className="text-base font-semibold text-fg">댓글 {post.commentCount}</h2>
         </div>
 
         <form onSubmit={handleComment} className="flex gap-2 px-4 pb-3">
