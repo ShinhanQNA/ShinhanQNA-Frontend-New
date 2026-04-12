@@ -27,8 +27,8 @@ export default function PostReportsPage() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold text-fg mb-6">게시글 신고 관리</h1>
+    <div className="p-4 sm:p-6">
+      <h1 className="text-xl sm:text-2xl font-bold text-fg mb-4 sm:mb-6">게시글 신고 관리</h1>
 
       {isLoading ? (
         <div className="flex justify-center py-16"><Spinner size="lg" /></div>
@@ -36,8 +36,8 @@ export default function PostReportsPage() {
         <EmptyState message="신고된 게시글이 없습니다" />
       ) : (
         <>
-          <div className="rounded-xl bg-surface shadow-card overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="rounded-xl bg-surface shadow-card overflow-x-auto">
+            <table className="w-full min-w-[720px] text-sm">
               <thead className="bg-surface-hover text-fg-muted">
                 <tr>
                   <th className="text-left px-4 py-3 font-medium">게시글 ID</th>
