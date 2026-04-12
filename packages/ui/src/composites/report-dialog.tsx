@@ -49,8 +49,8 @@ function ReportDialog({ open, onClose, onSubmit, loading }: ReportDialogProps) {
               className={cn(
                 "px-4 py-3 rounded-lg border text-left text-sm transition-colors",
                 reason === r.value
-                  ? "border-cyan-500 bg-cyan-100 text-cyan-900"
-                  : "border-gray-200 text-gray-700 hover:bg-gray-100",
+                  ? "border-cyan-500 bg-cyan-100 text-cyan-900 dark:bg-cyan-800 dark:text-cyan-100"
+                  : "border-border-default text-fg hover:bg-surface-hover",
               )}
             >
               {r.label}
