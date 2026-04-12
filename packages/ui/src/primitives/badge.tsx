@@ -8,12 +8,12 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  default: "bg-gray-100 text-gray-700",
-  cyan: "bg-cyan-100 text-cyan-900",
-  blue: "bg-blue-100 text-blue-900",
-  red: "bg-red-100 text-red-900",
-  orange: "bg-orange-100 text-orange-900",
-  green: "bg-green-100 text-green-900",
+  default: "bg-surface-hover text-fg-muted",
+  cyan: "bg-cyan-100 text-cyan-900 dark:bg-cyan-800 dark:text-cyan-100",
+  blue: "bg-blue-100 text-blue-900 dark:bg-blue-800 dark:text-blue-100",
+  red: "bg-red-100 text-red-900 dark:bg-red-800 dark:text-red-100",
+  orange: "bg-orange-100 text-orange-900 dark:bg-orange-800 dark:text-orange-100",
+  green: "bg-green-100 text-green-900 dark:bg-green-800 dark:text-green-100",
 };
 
 function Badge({ variant = "default", className, children, ...props }: BadgeProps) {
