@@ -1,22 +1,17 @@
 import { NextResponse } from "next/server";
 import { cyberVerify } from "@/lib/cyber-verify";
 
-const API_URL = process.env.API_URL;
-
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { email, cyberId, cyberPassword, password, nickname } = body as {
-      email?: string;
+    const { cyberId, cyberPassword } = body as {
       cyberId?: string;
       cyberPassword?: string;
-      password?: string;
-      nickname?: string;
     };
 
-    if (!email || !cyberId || !cyberPassword || !password || !nickname) {
+    if (!cyberId || !cyberPassword) {
       return NextResponse.json(
-        { resultCode: "400", msg: "필수 항목이 누락되었습니다.", data: {} },
+        { resultCode: "400", msg: "사이버캠퍼스 ID·비밀번호를 입력해주세요.", data: {} },
         { status: 400 },
       );
     }
@@ -52,19 +47,17 @@ export async function POST(request: Request) {
       }
     }
 
-    const res = await fetch(`${API_URL}/api/v1/members`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email,
-        studentNumber: verify.studentNumber,
-        password,
-        nickname,
-      }),
-    });
-
-    const data = await res.json();
-    return NextResponse.json(data, { status: res.status });
+    return NextResponse.json(
+      {
+        resultCode: "200",
+        msg: "확인 완료",
+        data: {
+          studentNumber: verify.studentNumber,
+          department: verify.department,
+        },
+      },
+      { status: 200 },
+    );
   } catch {
     return NextResponse.json({ resultCode: "502", msg: "서버 연결 실패", data: {} }, { status: 502 });
   }
