@@ -14,7 +14,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="flex flex-col gap-1.5">
         {label && (
-          <label htmlFor={inputId} className="text-sm font-medium text-gray-700">
+          <label htmlFor={inputId} className="text-sm font-medium text-fg-muted">
             {label}
           </label>
         )}
@@ -24,8 +24,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           aria-invalid={error ? "true" : undefined}
           aria-describedby={errorId}
           className={cn(
-            "w-full rounded-lg border bg-white px-4 py-2.5 text-base text-gray-900 placeholder:text-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent",
-            error ? "border-red-500" : "border-gray-300",
+            "w-full rounded-xl border-none bg-input px-4 py-3 text-base text-fg placeholder:text-fg-subtle transition-all outline-none ring-0 focus:ring-2 focus:ring-cyan-500/30 focus:bg-input-focus",
+            error && "ring-2 ring-red-500/30 bg-red-100/30",
             className,
           )}
           {...props}
