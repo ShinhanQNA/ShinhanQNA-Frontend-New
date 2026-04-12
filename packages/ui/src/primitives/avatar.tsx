@@ -23,7 +23,8 @@ function Avatar({ src, fallback, size = "md", className }: AvatarProps) {
       <img
         src={src}
         alt={fallback}
-        className={cn("rounded-full object-cover", sizeStyles[size], className)}
+        draggable={false}
+        className={cn("rounded-full object-cover select-none", sizeStyles[size], className)}
       />
     );
   }
@@ -31,7 +32,7 @@ function Avatar({ src, fallback, size = "md", className }: AvatarProps) {
   return (
     <div
       className={cn(
-        "rounded-full bg-cyan-100 text-cyan-700 flex items-center justify-center font-semibold",
+        "rounded-full bg-cyan-100 text-cyan-700 dark:bg-cyan-800 dark:text-cyan-100 flex items-center justify-center font-semibold select-none",
         sizeStyles[size],
         className,
       )}
