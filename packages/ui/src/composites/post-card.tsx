@@ -48,7 +48,7 @@ function PostCard({
       tabIndex={onClick ? 0 : undefined}
       role={onClick ? "button" : undefined}
       className={cn(
-        "flex gap-3 px-4 py-3 border-b border-gray-200 transition-colors hover:bg-gray-100",
+        "flex gap-3 px-4 py-3 border-b border-border-default transition-colors hover:bg-surface-hover",
         onClick && "cursor-pointer",
         className,
       )}
@@ -56,20 +56,20 @@ function PostCard({
       <Avatar fallback={authorName} size="md" className="shrink-0" />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-sm font-semibold text-gray-900 truncate">{authorName}</span>
+          <span className="text-sm font-semibold text-fg truncate">{authorName}</span>
           <Badge variant={boardVariants[boardType]}>{boardLabels[boardType]}</Badge>
-          <span className="text-xs text-gray-500 shrink-0">
+          <span className="text-xs text-fg-subtle shrink-0">
             {new Date(createdAt).toLocaleDateString("ko-KR")}
           </span>
         </div>
-        <h3 className="text-base font-semibold text-gray-900 mb-1 truncate">{title}</h3>
-        <p className="text-sm text-gray-600 line-clamp-2">{content}</p>
+        <h3 className="text-base font-semibold text-fg mb-1 truncate">{title}</h3>
+        <p className="text-sm text-fg-muted line-clamp-2">{content}</p>
         <div className="flex items-center gap-4 mt-2">
-          <span className="flex items-center gap-1 text-xs text-gray-500">
+          <span className="flex items-center gap-1 text-xs text-fg-subtle">
             <Heart className="h-3.5 w-3.5" />
             {likeCount}
           </span>
-          <span className="flex items-center gap-1 text-xs text-gray-500">
+          <span className="flex items-center gap-1 text-xs text-fg-subtle">
             <MessageCircle className="h-3.5 w-3.5" />
             {commentCount}
           </span>
