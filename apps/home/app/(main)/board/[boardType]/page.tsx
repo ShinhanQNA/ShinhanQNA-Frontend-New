@@ -34,8 +34,8 @@ export default function BoardPage() {
 
   return (
     <div className="flex flex-col">
-      <div className="px-4 py-3 border-b border-gray-200">
-        <h2 className="text-lg font-bold text-gray-900">{boardTitles[boardType]}</h2>
+      <div className="px-4 py-3 border-b border-border-default">
+        <h2 className="text-lg font-bold text-fg">{boardTitles[boardType]}</h2>
       </div>
 
       {isLoading ? (
