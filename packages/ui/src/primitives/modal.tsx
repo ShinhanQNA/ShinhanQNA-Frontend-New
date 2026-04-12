@@ -44,7 +44,7 @@ function Modal({ open, onClose, title, children, className }: ModalProps) {
       ref={dialogRef}
       aria-labelledby={title ? titleId : undefined}
       className={cn(
-        "rounded-2xl border-none bg-white p-0 shadow-modal backdrop:bg-black/50 max-w-lg w-full",
+        "rounded-2xl border-none bg-surface p-0 shadow-modal backdrop:bg-black/50 max-w-lg w-full m-auto",
         className,
       )}
       onClick={(e) => {
@@ -53,7 +53,7 @@ function Modal({ open, onClose, title, children, className }: ModalProps) {
     >
       <div className="p-6">
         {title && (
-          <h2 id={titleId} className="text-xl font-bold text-gray-900 mb-4">{title}</h2>
+          <h2 id={titleId} className="text-xl font-bold text-fg mb-4">{title}</h2>
         )}
         {children}
       </div>

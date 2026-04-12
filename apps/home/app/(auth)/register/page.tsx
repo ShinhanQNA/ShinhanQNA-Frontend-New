@@ -68,7 +68,7 @@ export default function RegisterPage() {
       <Button type="submit" loading={registerMutation.isPending} className="w-full mt-2">
         회원가입
       </Button>
-      <p className="text-center text-sm text-gray-500">
+      <p className="text-center text-sm text-fg-muted">
         이미 계정이 있으신가요?{" "}
         <Link href="/login" className="text-cyan-500 font-medium hover:underline">
           로그인

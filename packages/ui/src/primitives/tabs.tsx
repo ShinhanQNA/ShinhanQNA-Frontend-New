@@ -35,7 +35,7 @@ function Tabs({ items, activeKey, onChange, className }: TabsProps) {
   };
 
   return (
-    <div className={cn("flex border-b border-gray-200", className)} role="tablist">
+    <div className={cn("flex border-b border-border-default", className)} role="tablist">
       {items.map((item, index) => (
         <button
           key={item.key}
@@ -50,7 +50,7 @@ function Tabs({ items, activeKey, onChange, className }: TabsProps) {
             "px-4 py-3 text-sm font-medium transition-colors relative",
             activeKey === item.key
               ? "text-cyan-500"
-              : "text-gray-500 hover:text-gray-700",
+              : "text-fg-muted hover:text-fg",
           )}
         >
           {item.label}

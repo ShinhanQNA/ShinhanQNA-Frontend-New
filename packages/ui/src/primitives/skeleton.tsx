@@ -7,7 +7,7 @@ interface SkeletonProps {
 function Skeleton({ className }: SkeletonProps) {
   return (
     <div
-      className={cn("animate-pulse rounded-lg bg-gray-200", className)}
+      className={cn("animate-pulse rounded-lg bg-surface-hover", className)}
       aria-hidden="true"
     />
   );

@@ -3,7 +3,7 @@ import { Skeleton } from "@shinhanqna/ui";
 export default function PostLoading() {
   return (
     <div className="flex flex-col">
-      <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-border-default">
         <Skeleton className="h-5 w-5 rounded" />
         <Skeleton className="h-5 w-16" />
       </div>

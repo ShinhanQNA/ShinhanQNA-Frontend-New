@@ -20,11 +20,11 @@ function Pagination({ page, totalPages, hasNext, hasPrevious, onPageChange, clas
         onClick={() => onPageChange(page - 1)}
         disabled={!hasPrevious}
         aria-label="이전 페이지"
-        className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 disabled:opacity-30 disabled:pointer-events-none"
+        className="p-2 rounded-lg text-fg-muted hover:bg-surface-hover disabled:opacity-30 disabled:pointer-events-none"
       >
         <ChevronLeft className="h-5 w-5" aria-hidden="true" />
       </button>
-      <span className="text-sm text-gray-600 px-3">
+      <span className="text-sm text-fg-muted px-3">
         {page + 1} / {totalPages}
       </span>
       <button
@@ -32,7 +32,7 @@ function Pagination({ page, totalPages, hasNext, hasPrevious, onPageChange, clas
         onClick={() => onPageChange(page + 1)}
         disabled={!hasNext}
         aria-label="다음 페이지"
-        className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 disabled:opacity-30 disabled:pointer-events-none"
+        className="p-2 rounded-lg text-fg-muted hover:bg-surface-hover disabled:opacity-30 disabled:pointer-events-none"
       >
         <ChevronRight className="h-5 w-5" aria-hidden="true" />
       </button>

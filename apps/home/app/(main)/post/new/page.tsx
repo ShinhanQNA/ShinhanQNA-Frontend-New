@@ -50,11 +50,11 @@ export default function NewPostPage() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
-        <button type="button" onClick={() => router.back()} className="text-gray-500 hover:text-gray-700">
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-border-default">
+        <button type="button" onClick={() => router.back()} className="text-fg-muted hover:text-fg">
           <ArrowLeft className="h-5 w-5" />
         </button>
-        <span className="text-lg font-bold text-gray-900">글쓰기</span>
+        <span className="text-lg font-bold text-fg">글쓰기</span>
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4">
@@ -82,7 +82,7 @@ export default function NewPostPage() {
         />
 
         <div>
-          <label className="text-sm font-medium text-gray-700 mb-1.5 block">
+          <label className="text-sm font-medium text-fg mb-1.5 block">
             이미지 (최대 5장)
           </label>
           <input
@@ -90,13 +90,13 @@ export default function NewPostPage() {
             accept="image/*"
             multiple
             onChange={(e) => setImages(Array.from(e.target.files || []).slice(0, 5))}
-            className="text-sm text-gray-500 file:mr-3 file:rounded-lg file:border-0 file:bg-gray-100 file:px-4 file:py-2 file:text-sm file:font-medium file:text-gray-700 hover:file:bg-gray-200"
+            className="text-sm text-fg-muted file:mr-3 file:rounded-lg file:border-0 file:bg-surface-hover file:px-4 file:py-2 file:text-sm file:font-medium file:text-fg hover:file:bg-surface-hover"
           />
         </div>
 
         {isRecruitBoard(boardType) && (
-          <div className="flex flex-col gap-3 p-4 rounded-xl bg-gray-100">
-            <p className="text-sm font-semibold text-gray-900">모집 정보</p>
+          <div className="flex flex-col gap-3 p-4 rounded-xl bg-surface-hover">
+            <p className="text-sm font-semibold text-fg">모집 정보</p>
             <Input
               label="모집 인원"
               type="number"

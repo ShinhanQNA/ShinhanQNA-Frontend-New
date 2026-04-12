@@ -54,11 +54,11 @@ export default function EditPostPage() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
-        <button type="button" onClick={() => router.back()} className="text-gray-500 hover:text-gray-700">
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-border-default">
+        <button type="button" onClick={() => router.back()} className="text-fg-muted hover:text-fg">
           <ArrowLeft className="h-5 w-5" />
         </button>
-        <span className="text-lg font-bold text-gray-900">수정하기</span>
+        <span className="text-lg font-bold text-fg">수정하기</span>
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4">

@@ -25,11 +25,11 @@ function RecruitmentBadge({
       <Badge variant={isClosed ? "default" : "green"}>
         {isClosed ? "모집 마감" : "모집 중"}
       </Badge>
-      <span className="flex items-center gap-1 text-xs text-gray-500">
+      <span className="flex items-center gap-1 text-xs text-fg-muted">
         <Users className="h-3.5 w-3.5" />
         {currentCount}/{capacity}
       </span>
-      <span className="flex items-center gap-1 text-xs text-gray-500">
+      <span className="flex items-center gap-1 text-xs text-fg-muted">
         <Calendar className="h-3.5 w-3.5" />
         {new Date(deadline).toLocaleDateString("ko-KR")}
       </span>

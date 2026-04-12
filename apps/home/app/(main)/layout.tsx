@@ -38,7 +38,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             header={
               <Link href="/" className="flex items-center gap-2">
                 <Logo size={28} className="text-cyan-500" />
-                <span className="text-lg font-bold text-gray-900">신한Q&A</span>
+                <span className="text-lg font-bold text-fg">신한Q&A</span>
               </Link>
             }
           />

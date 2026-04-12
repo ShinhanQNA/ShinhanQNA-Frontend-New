@@ -28,7 +28,7 @@ export default function PostReportsPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">게시글 신고 관리</h1>
+      <h1 className="text-2xl font-bold text-fg mb-6">게시글 신고 관리</h1>
 
       {isLoading ? (
         <div className="flex justify-center py-16"><Spinner size="lg" /></div>
@@ -36,9 +36,9 @@ export default function PostReportsPage() {
         <EmptyState message="신고된 게시글이 없습니다" />
       ) : (
         <>
-          <div className="rounded-xl bg-white shadow-card overflow-hidden">
+          <div className="rounded-xl bg-surface shadow-card overflow-hidden">
             <table className="w-full text-sm">
-              <thead className="bg-gray-100 text-gray-600">
+              <thead className="bg-surface-hover text-fg-muted">
                 <tr>
                   <th className="text-left px-4 py-3 font-medium">게시글 ID</th>
                   <th className="text-left px-4 py-3 font-medium">사유</th>
@@ -48,21 +48,21 @@ export default function PostReportsPage() {
                   <th className="text-right px-4 py-3 font-medium">관리</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-border-default">
                 {data.items.map((report) => (
-                  <tr key={report.reportId} className="hover:bg-gray-100 transition-colors">
-                    <td className="px-4 py-3 text-gray-900">{report.postId}</td>
+                  <tr key={report.reportId} className="hover:bg-surface-hover transition-colors">
+                    <td className="px-4 py-3 text-fg">{report.postId}</td>
                     <td className="px-4 py-3">
                       <Badge variant="orange">{reasonLabels[report.reason]}</Badge>
                     </td>
-                    <td className="px-4 py-3 text-gray-600 max-w-[200px] truncate">{report.description || "-"}</td>
+                    <td className="px-4 py-3 text-fg-muted max-w-[200px] truncate">{report.description || "-"}</td>
                     <td className="px-4 py-3">
                       {report.postDeleted
                         ? <Badge variant="default">삭제됨</Badge>
                         : <Badge variant="red">미처리</Badge>
                       }
                     </td>
-                    <td className="px-4 py-3 text-gray-500">{new Date(report.reportedAt).toLocaleDateString("ko-KR")}</td>
+                    <td className="px-4 py-3 text-fg-muted">{new Date(report.reportedAt).toLocaleDateString("ko-KR")}</td>
                     <td className="px-4 py-3 text-right">
                       {!report.postDeleted && (
                         <Button
@@ -90,7 +90,7 @@ export default function PostReportsPage() {
       )}
 
       <Modal open={deleteTarget !== null} onClose={() => setDeleteTarget(null)} title="게시글 삭제">
-        <p className="text-sm text-gray-600 mb-4">이 게시글을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.</p>
+        <p className="text-sm text-fg-muted mb-4">이 게시글을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.</p>
         <div className="flex justify-end gap-2">
           <Button variant="ghost" onClick={() => setDeleteTarget(null)}>취소</Button>
           <Button variant="danger" onClick={handleDelete} loading={deleteMutation.isPending}>삭제</Button>
