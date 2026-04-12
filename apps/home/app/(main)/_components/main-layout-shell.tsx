@@ -27,7 +27,7 @@ export function MainLayoutShell({ children, isAuthenticated }: MainLayoutShellPr
   };
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-[640px] flex-col border-x border-border-default">
+    <div className="mx-auto flex min-h-screen w-full max-w-[640px] lg:max-w-3xl xl:max-w-4xl flex-col border-x border-border-default">
       <Header
         left={
           <Link href="/" className="flex items-center gap-2">
