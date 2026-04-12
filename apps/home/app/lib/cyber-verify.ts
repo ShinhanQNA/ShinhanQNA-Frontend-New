@@ -1,9 +1,11 @@
 import "server-only";
 
+const CYBER_LOGIN_PAGE_URL = "https://cyber.shinhan.ac.kr/login.php";
 const CYBER_LOGIN_URL = "https://cyber.shinhan.ac.kr/login/index.php";
 const CYBER_PROFILE_URL = "https://cyber.shinhan.ac.kr/user/user_edit.php";
-const CYBER_LOGIN_REFERER = "https://cyber.shinhan.ac.kr/login.php";
 const ALLOWED_DEPARTMENT = "소프트웨어융합학과";
+const USER_AGENT =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36";
 
 export type CyberVerifyError =
   | "INVALID_CREDENTIALS"
@@ -28,32 +30,53 @@ export type CyberVerifyResult = CyberVerifyOk | CyberVerifyFail;
 
 export async function cyberVerify(username: string, password: string): Promise<CyberVerifyResult> {
   try {
+    // 1. 로그인 페이지 prefetch — 초기 세션 쿠키 확보
+    const prefetchRes = await fetch(CYBER_LOGIN_PAGE_URL, {
+      method: "GET",
+      headers: { "User-Agent": USER_AGENT },
+      redirect: "manual",
+    });
+    const prefetchCookies = parseSetCookie(prefetchRes.headers);
+    const prefetchCookieHeader = toCookieHeader(prefetchCookies);
+
+    // 2. 로그인 POST — prefetch 쿠키 포함
     const loginRes = await fetch(CYBER_LOGIN_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Referer: CYBER_LOGIN_REFERER,
+        "User-Agent": USER_AGENT,
+        Referer: CYBER_LOGIN_PAGE_URL,
+        ...(prefetchCookieHeader ? { Cookie: prefetchCookieHeader } : {}),
       },
       body: new URLSearchParams({ username, password }).toString(),
       redirect: "manual",
     });
 
+    // 3. 로그인 성공/실패 판정
     const location = loginRes.headers.get("location") ?? "";
-    if (location.includes("errorcode=")) {
+    if (location.includes("errorcode=") || location.includes("/login.php?errorcode")) {
       return { success: false, error: "INVALID_CREDENTIALS" };
     }
 
-    const cookieHeader = buildCookieHeader(loginRes.headers);
-    if (!cookieHeader) {
+    // 4. 세션 쿠키 병합 (prefetch + login 응답)
+    const loginCookies = parseSetCookie(loginRes.headers);
+    const merged = mergeCookies(prefetchCookies, loginCookies);
+    const sessionCookieHeader = toCookieHeader(merged);
+    if (!sessionCookieHeader) {
       return { success: false, error: "INVALID_CREDENTIALS" };
     }
 
+    // 5. 프로필 페이지 GET
     const profileRes = await fetch(CYBER_PROFILE_URL, {
       method: "GET",
-      headers: { Cookie: cookieHeader },
+      headers: {
+        "User-Agent": USER_AGENT,
+        Cookie: sessionCookieHeader,
+      },
       redirect: "manual",
     });
 
+    // 200이 아닌 경우 = 로그인 실패 (세션 없어서 login으로 redirect)
     if (profileRes.status !== 200) {
       return { success: false, error: "INVALID_CREDENTIALS" };
     }
@@ -76,24 +99,46 @@ export async function cyberVerify(username: string, password: string): Promise<C
   }
 }
 
-function buildCookieHeader(headers: Headers): string | null {
-  const getSetCookie = (headers as Headers & { getSetCookie?: () => string[] }).getSetCookie;
-  const rawCookies = typeof getSetCookie === "function" ? getSetCookie.call(headers) : splitSetCookie(headers.get("set-cookie"));
-  if (rawCookies.length === 0) return null;
+interface CookiePair {
+  name: string;
+  value: string;
+}
 
-  const pairs: string[] = [];
+function parseSetCookie(headers: Headers): CookiePair[] {
+  const getSetCookie = (headers as Headers & { getSetCookie?: () => string[] }).getSetCookie;
+  const rawCookies =
+    typeof getSetCookie === "function" ? getSetCookie.call(headers) : splitSetCookie(headers.get("set-cookie"));
+
+  const pairs: CookiePair[] = [];
   for (const raw of rawCookies) {
     const firstSemi = raw.indexOf(";");
     const kv = firstSemi === -1 ? raw : raw.slice(0, firstSemi);
     const eq = kv.indexOf("=");
-    if (eq > 0) pairs.push(kv.trim());
+    if (eq > 0) {
+      pairs.push({
+        name: kv.slice(0, eq).trim(),
+        value: kv.slice(eq + 1).trim(),
+      });
+    }
   }
-  return pairs.length > 0 ? pairs.join("; ") : null;
+  return pairs;
 }
 
 function splitSetCookie(value: string | null): string[] {
   if (!value) return [];
   return value.split(/,(?=\s*[A-Za-z0-9_-]+=)/).map((s) => s.trim()).filter(Boolean);
+}
+
+function mergeCookies(base: CookiePair[], override: CookiePair[]): CookiePair[] {
+  const map = new Map<string, string>();
+  for (const c of base) map.set(c.name, c.value);
+  for (const c of override) map.set(c.name, c.value);
+  return Array.from(map, ([name, value]) => ({ name, value }));
+}
+
+function toCookieHeader(cookies: CookiePair[]): string | null {
+  if (cookies.length === 0) return null;
+  return cookies.map((c) => `${c.name}=${c.value}`).join("; ");
 }
 
 function extractStudentNumber(html: string): string | null {
