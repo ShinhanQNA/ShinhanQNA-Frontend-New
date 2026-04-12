@@ -39,17 +39,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         header={
           <Link href="/" className="flex items-center gap-2">
             <Logo size={28} className="text-cyan-500" />
-            <span className="text-lg font-bold text-gray-900">관리자</span>
+            <span className="text-lg font-bold text-fg">관리자</span>
           </Link>
         }
         footer={
-          <Button variant="ghost" onClick={handleLogout} className="w-full text-gray-500 justify-start">
+          <Button variant="ghost" onClick={handleLogout} className="w-full text-fg-muted justify-start">
             <LogOut className="h-4 w-4 mr-2" />
             로그아웃
           </Button>
         }
       />
-      <main className="flex-1 bg-gray-100">
+      <main className="flex-1 bg-surface-hover">
         {children}
       </main>
     </div>
