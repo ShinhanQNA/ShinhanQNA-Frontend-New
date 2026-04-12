@@ -40,16 +40,16 @@ export default function ProfilePage() {
 
   return (
     <div className="flex flex-col">
-      <div className="px-4 py-3 border-b border-gray-200">
-        <h2 className="text-lg font-bold text-gray-900">프로필</h2>
+      <div className="px-4 py-3 border-b border-border-default">
+        <h2 className="text-lg font-bold text-fg">프로필</h2>
       </div>
 
       <div className="p-4 flex flex-col gap-6">
         <div className="flex items-center gap-4">
           <Avatar fallback="나" size="lg" />
           <div>
-            <p className="font-semibold text-gray-900">내 프로필</p>
-            <p className="text-sm text-gray-500">닉네임을 변경할 수 있습니다</p>
+            <p className="font-semibold text-fg">내 프로필</p>
+            <p className="text-sm text-fg-muted">닉네임을 변경할 수 있습니다</p>
           </div>
         </div>
 
@@ -68,7 +68,7 @@ export default function ProfilePage() {
           </Button>
         </form>
 
-        <div className="border-t border-gray-200 pt-4">
+        <div className="border-t border-border-default pt-4">
           <Button
             variant="ghost"
             onClick={handleLogout}
