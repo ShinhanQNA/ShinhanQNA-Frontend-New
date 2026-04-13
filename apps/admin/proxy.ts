@@ -5,7 +5,7 @@ const PUBLIC_PATHS = ["/login"];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const accessToken = request.cookies.get("access_token")?.value;
+  const accessToken = request.cookies.get("admin_access_token")?.value;
 
   const isPublicPath = PUBLIC_PATHS.some((path) => pathname === path || pathname.startsWith(path + "/"));
 
