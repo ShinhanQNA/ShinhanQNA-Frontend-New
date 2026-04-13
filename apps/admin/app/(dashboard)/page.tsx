@@ -11,8 +11,8 @@ export default function DashboardPage() {
   const isLoading = postsLoading || commentsLoading;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold text-fg mb-6">대시보드</h1>
+    <div className="p-4 sm:p-6">
+      <h1 className="text-xl sm:text-2xl font-bold text-fg mb-4 sm:mb-6">대시보드</h1>
 
       {isLoading ? (
         <div className="flex justify-center py-16"><Spinner size="lg" /></div>
