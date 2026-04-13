@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
-const ACCESS_TOKEN_KEY = "access_token";
-const REFRESH_TOKEN_KEY = "refresh_token";
+const ACCESS_TOKEN_KEY = "student_access_token";
+const REFRESH_TOKEN_KEY = "student_refresh_token";
 
 const COOKIE_OPTIONS = {
   httpOnly: true,
