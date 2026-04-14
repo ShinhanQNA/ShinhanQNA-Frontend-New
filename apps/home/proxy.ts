@@ -13,7 +13,7 @@ function matches(pathname: string, paths: string[]) {
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const accessToken = request.cookies.get("access_token")?.value;
+  const accessToken = request.cookies.get("student_access_token")?.value;
 
   const isPublic = matches(pathname, PUBLIC_PATHS);
   const isGuestOnly = matches(pathname, GUEST_ONLY_PATHS);
