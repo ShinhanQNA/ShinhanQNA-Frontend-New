@@ -101,7 +101,7 @@ export default function PostDetailPage() {
         {post.imageUrls.length > 0 && (
           <div className="flex gap-2 overflow-x-auto mb-4">
             {post.imageUrls.map((url, i) => (
-              <img key={i} src={url} alt="" className="rounded-xl max-h-80 object-cover" />
+              <img key={i} src={url} alt="" className="shrink-0 rounded-xl max-h-80 object-cover" />
             ))}
           </div>
         )}
@@ -133,7 +133,7 @@ export default function PostDetailPage() {
           <h2 className="text-base font-semibold text-fg">댓글 {post.commentCount}</h2>
         </div>
 
-        <form onSubmit={handleComment} className="flex gap-2 px-4 pb-3">
+        <form onSubmit={handleComment} className="flex flex-col gap-2 px-4 pb-3">
           <Textarea
             placeholder="댓글을 입력하세요"
             value={commentText}
