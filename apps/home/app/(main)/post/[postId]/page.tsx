@@ -101,7 +101,7 @@ export default function PostDetailPage() {
         {post.imageUrls.length > 0 && (
           <div className="flex gap-2 overflow-x-auto mb-4">
             {post.imageUrls.map((url, i) => (
-              <img key={i} src={url} alt="" className="rounded-xl max-h-80 object-cover" />
+              <img key={i} src={url} alt="" className="shrink-0 rounded-xl max-h-80 object-cover" />
             ))}
           </div>
         )}
