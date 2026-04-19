@@ -133,7 +133,7 @@ export default function PostDetailPage() {
           <h2 className="text-base font-semibold text-fg">댓글 {post.commentCount}</h2>
         </div>
 
-        <form onSubmit={handleComment} className="flex gap-2 px-4 pb-3">
+        <form onSubmit={handleComment} className="flex flex-col gap-2 px-4 pb-3">
           <Textarea
             placeholder="댓글을 입력하세요"
             value={commentText}
