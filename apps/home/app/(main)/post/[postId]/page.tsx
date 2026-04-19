@@ -81,22 +81,24 @@ export default function PostDetailPage() {
               </div>
             </div>
           </div>
-          <Dropdown
-            trigger={<MoreHorizontal className="h-5 w-5 text-fg-muted" />}
-            items={
-              me?.nickname && me.nickname === post.authorName
-                ? [
-                    { key: "edit", label: "수정" },
-                    { key: "delete", label: "삭제", danger: true },
-                  ]
-                : [{ key: "report", label: "신고" }]
-            }
-            onSelect={(key) => {
-              if (key === "edit") router.push(`/post/${postId}/edit`);
-              if (key === "report") setReportOpen(true);
-              if (key === "delete") handleDelete();
-            }}
-          />
+          {me?.nickname && (
+            <Dropdown
+              trigger={<MoreHorizontal className="h-5 w-5 text-fg-muted" />}
+              items={
+                me.nickname === post.authorName
+                  ? [
+                      { key: "edit", label: "수정" },
+                      { key: "delete", label: "삭제", danger: true },
+                    ]
+                  : [{ key: "report", label: "신고" }]
+              }
+              onSelect={(key) => {
+                if (key === "edit") router.push(`/post/${postId}/edit`);
+                if (key === "report") setReportOpen(true);
+                if (key === "delete") handleDelete();
+              }}
+            />
+          )}
         </div>
 
         <h1 className="text-xl font-bold text-fg mb-2">{post.title}</h1>
