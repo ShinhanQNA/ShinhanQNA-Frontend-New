@@ -25,7 +25,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           aria-describedby={errorId}
           className={cn(
             "w-full rounded-xl border-none bg-input px-4 py-3 text-base text-fg placeholder:text-fg-subtle transition-all outline-none ring-0 focus:ring-2 focus:ring-cyan-500/30 focus:bg-input-focus",
-            error && "ring-2 ring-red-500/30 bg-red-100/30",
+            error && "ring-2 ring-red-500/30 bg-red-100/30 dark:bg-red-900/30",
             className,
           )}
           {...props}
