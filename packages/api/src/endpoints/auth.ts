@@ -23,6 +23,10 @@ export function verifyCyber(data: CyberVerifyRequest) {
   });
 }
 
+export function fetchMe() {
+  return apiFetch<{ nickname: string | null }>("/api/auth/me");
+}
+
 export function register(data: RegisterRequest) {
   return apiFetch<void>("/api/auth/register", {
     method: "POST",

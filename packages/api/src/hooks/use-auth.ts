@@ -1,8 +1,17 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import type { LoginRequest, RegisterRequest, LogoutRequest, CyberVerifyRequest } from "@shinhanqna/types";
-import { login, register, logout, verifyCyber } from "../endpoints/auth";
+import { login, register, logout, verifyCyber, fetchMe } from "../endpoints/auth";
+
+export function useMe() {
+  return useQuery({
+    queryKey: ["me"],
+    queryFn: fetchMe,
+    staleTime: 1000 * 60 * 5,
+    retry: false,
+  });
+}
 
 export function useLogin() {
   return useMutation({

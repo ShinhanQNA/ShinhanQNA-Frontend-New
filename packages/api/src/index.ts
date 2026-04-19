@@ -1,7 +1,7 @@
 export { apiFetch, ApiError } from "./client";
 export { createQueryClient } from "./query-client";
 
-export { login, register, refresh, logout, verifyCyber } from "./endpoints/auth";
+export { login, register, refresh, logout, verifyCyber, fetchMe } from "./endpoints/auth";
 export { postKeys, fetchPosts, fetchPost, createPost, updatePost, deletePost } from "./endpoints/posts";
 export { commentKeys, fetchComments, createComment, updateComment, deleteComment } from "./endpoints/comments";
 export { toggleLike } from "./endpoints/likes";
@@ -13,6 +13,6 @@ export { usePosts, usePost, useCreatePost, useUpdatePost, useDeletePost } from "
 export { useComments, useCreateComment, useUpdateComment, useDeleteComment } from "./hooks/use-comments";
 export { useToggleLike } from "./hooks/use-like";
 export { useReportPost, useReportComment } from "./hooks/use-report";
-export { useLogin, useRegister, useLogout, useCyberVerify } from "./hooks/use-auth";
+export { useMe, useLogin, useRegister, useLogout, useCyberVerify } from "./hooks/use-auth";
 export { useUpdateNickname } from "./hooks/use-member";
 export { usePostReports, useCommentReports, useAdminDeletePost, useAdminDeleteComment } from "./hooks/use-admin";
