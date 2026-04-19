@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, MoreHorizontal, Flag, Trash2, Pencil } from "lucide-react";
-import { usePost, useDeletePost, useComments, useCreateComment, useToggleLike, useReportPost } from "@shinhanqna/api";
+import { usePost, useDeletePost, useComments, useCreateComment, useToggleLike, useReportPost, useMe } from "@shinhanqna/api";
 import { Avatar, Badge, LikeButton, CommentItem, ReportDialog, Dropdown, Spinner, EmptyState, Button, Textarea, RecruitmentBadge } from "@shinhanqna/ui";
 import type { BoardType, ReportReason } from "@shinhanqna/types";
 
@@ -20,6 +20,7 @@ export default function PostDetailPage() {
   const postId = Number(postIdParam);
   const isValidId = Number.isInteger(postId) && postId > 0;
 
+  const { data: me } = useMe();
   const { data: post, isLoading: postLoading } = usePost(postId);
   const { data: commentsData } = useComments(postId);
   const deleteMutation = useDeletePost();
@@ -82,11 +83,14 @@ export default function PostDetailPage() {
           </div>
           <Dropdown
             trigger={<MoreHorizontal className="h-5 w-5 text-fg-muted" />}
-            items={[
-              { key: "edit", label: "수정" },
-              { key: "report", label: "신고" },
-              { key: "delete", label: "삭제", danger: true },
-            ]}
+            items={
+              me?.nickname && me.nickname === post.authorName
+                ? [
+                    { key: "edit", label: "수정" },
+                    { key: "delete", label: "삭제", danger: true },
+                  ]
+                : [{ key: "report", label: "신고" }]
+            }
             onSelect={(key) => {
               if (key === "edit") router.push(`/post/${postId}/edit`);
               if (key === "report") setReportOpen(true);
