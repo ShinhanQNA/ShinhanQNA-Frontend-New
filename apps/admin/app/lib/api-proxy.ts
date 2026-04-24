@@ -3,16 +3,16 @@ import { getAccessToken, getRefreshToken, setAuthCookies, clearAuthCookies } fro
 
 const API_URL = process.env.API_URL;
 
-let refreshPromise: Promise<boolean> | null = null;
+let refreshPromise: Promise<string | null> | null = null;
 
-async function tryRefresh(): Promise<boolean> {
+async function tryRefresh(): Promise<string | null> {
   if (refreshPromise) return refreshPromise;
 
   refreshPromise = (async () => {
     const refreshToken = await getRefreshToken();
     if (!refreshToken) {
       await clearAuthCookies();
-      return false;
+      return null;
     }
 
     try {
@@ -24,15 +24,15 @@ async function tryRefresh(): Promise<boolean> {
 
       if (!res.ok) {
         await clearAuthCookies();
-        return false;
+        return null;
       }
 
       const data = await res.json();
       await setAuthCookies(data.data.accessToken, data.data.refreshToken);
-      return true;
+      return data.data.accessToken as string;
     } catch {
       await clearAuthCookies();
-      return false;
+      return null;
     }
   })().finally(() => {
     refreshPromise = null;
@@ -41,18 +41,20 @@ async function tryRefresh(): Promise<boolean> {
   return refreshPromise;
 }
 
-async function sendWithAuth(path: string, init: RequestInit): Promise<Response> {
-  const accessToken = await getAccessToken();
+async function sendWithAuth(path: string, init: RequestInit, overrideToken?: string): Promise<Response> {
+  const accessToken = overrideToken ?? (await getAccessToken());
   const headers = new Headers(init.headers);
   if (accessToken) headers.set("Authorization", `Bearer ${accessToken}`);
   return fetch(`${API_URL}${path}`, { ...init, headers });
 }
 
-async function withAutoRefresh(execute: () => Promise<Response>): Promise<Response> {
+async function withAutoRefresh(
+  execute: (overrideToken?: string) => Promise<Response>,
+): Promise<Response> {
   let res = await execute();
   if (res.status === 401) {
-    const refreshed = await tryRefresh();
-    if (refreshed) res = await execute();
+    const newToken = await tryRefresh();
+    if (newToken) res = await execute(newToken);
   }
   return res;
 }
@@ -86,8 +88,8 @@ export async function apiProxy(
       : undefined;
 
   try {
-    const res = await withAutoRefresh(() =>
-      sendWithAuth(path, { method, headers, body: serializedBody }),
+    const res = await withAutoRefresh((token) =>
+      sendWithAuth(path, { method, headers, body: serializedBody }, token),
     );
     return buildProxyResponse(res);
   } catch {
