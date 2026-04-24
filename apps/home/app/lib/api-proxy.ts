@@ -3,18 +3,19 @@ import { getAccessToken, getRefreshToken, setAuthCookies, clearAuthCookies } fro
 
 const API_URL = process.env.API_URL;
 
-let refreshPromise: Promise<string | null> | null = null;
+const refreshPromises = new Map<string, Promise<string | null>>();
 
 async function tryRefresh(): Promise<string | null> {
-  if (refreshPromise) return refreshPromise;
+  const refreshToken = await getRefreshToken();
+  if (!refreshToken) {
+    await clearAuthCookies();
+    return null;
+  }
 
-  refreshPromise = (async () => {
-    const refreshToken = await getRefreshToken();
-    if (!refreshToken) {
-      await clearAuthCookies();
-      return null;
-    }
+  const existing = refreshPromises.get(refreshToken);
+  if (existing) return existing;
 
+  const promise = (async () => {
     try {
       const res = await fetch(`${API_URL}/api/v1/auth/refresh`, {
         method: "POST",
@@ -35,10 +36,11 @@ async function tryRefresh(): Promise<string | null> {
       return null;
     }
   })().finally(() => {
-    refreshPromise = null;
+    refreshPromises.delete(refreshToken);
   });
 
-  return refreshPromise;
+  refreshPromises.set(refreshToken, promise);
+  return promise;
 }
 
 async function sendWithAuth(path: string, init: RequestInit, overrideToken?: string): Promise<Response> {
@@ -66,6 +68,7 @@ async function buildProxyResponse(res: Response) {
       { status: 401 },
     );
   }
+
   if (res.status === 204 || res.headers.get("content-length") === "0") {
     return NextResponse.json({ resultCode: "200", msg: "success", data: {} }, { status: res.status });
   }
