@@ -21,7 +21,10 @@ export function createQueryClient() {
     defaultOptions: {
       queries: {
         staleTime: 60 * 1000,
-        retry: 1,
+        retry: (failureCount, error) => {
+          if (error instanceof ApiError && error.status === 401) return false;
+          return failureCount < 1;
+        },
         refetchOnWindowFocus: false,
       },
     },
