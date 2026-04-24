@@ -69,11 +69,23 @@ async function buildProxyResponse(res: Response) {
     );
   }
 
-  if (res.status === 204 || res.headers.get("content-length") === "0") {
-    return NextResponse.json({ resultCode: "200", msg: "success", data: {} }, { status: res.status });
+  const text = await res.text();
+  if (!text) {
+    return NextResponse.json(
+      { resultCode: String(res.status), msg: "success", data: {} },
+      { status: res.status },
+    );
   }
-  const data = await res.json();
-  return NextResponse.json(data, { status: res.status });
+
+  try {
+    const data = JSON.parse(text);
+    return NextResponse.json(data, { status: res.status });
+  } catch {
+    return NextResponse.json(
+      { resultCode: String(res.status), msg: "서버에서 잘못된 응답을 받았습니다", data: {} },
+      { status: res.status },
+    );
+  }
 }
 
 export async function apiProxy(
