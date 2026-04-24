@@ -11,12 +11,33 @@ function matches(pathname: string, paths: string[]) {
   return paths.some((path) => pathname === path || pathname.startsWith(path + "/"));
 }
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const accessToken = request.cookies.get("student_access_token")?.value;
+  const refreshToken = request.cookies.get("student_refresh_token")?.value;
 
   const isPublic = matches(pathname, PUBLIC_PATHS);
   const isGuestOnly = matches(pathname, GUEST_ONLY_PATHS);
+
+  if (!accessToken && refreshToken && !isGuestOnly) {
+    try {
+      const refreshRes = await fetch(new URL("/api/auth/refresh", request.url), {
+        method: "POST",
+        headers: { cookie: request.headers.get("cookie") ?? "" },
+      });
+
+      if (refreshRes.ok) {
+        const response = NextResponse.next();
+        const setCookieHeaders = refreshRes.headers.getSetCookie?.() ?? [];
+        for (const cookie of setCookieHeaders) {
+          response.headers.append("set-cookie", cookie);
+        }
+        return response;
+      }
+    } catch {
+      // fall through
+    }
+  }
 
   if (accessToken && isGuestOnly) {
     return NextResponse.redirect(new URL("/", request.url));
